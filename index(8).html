@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>BibliotecaPoli</title>
+
+<style>
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Segoe UI',sans-serif;
+}
+
+body{
+  background:#f4f7fb;
+  min-height:100vh;
+}
+
+/* LOGIN */
+
+.login-container{
+  width:100%;
+  height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background:linear-gradient(135deg,#0f172a,#1e3a8a,#2563eb);
+}
+
+.login-card{
+  width:400px;
+  background:white;
+  padding:40px;
+  border-radius:25px;
+  box-shadow:0 10px 40px rgba(0,0,0,0.2);
+  text-align:center;
+}
+
+.logo{
+  width:90px;
+  height:90px;
+  margin:auto;
+  margin-bottom:20px;
+  border-radius:20px;
+  background:linear-gradient(135deg,#2563eb,#3b82f6);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  color:white;
+  font-size:40px;
+  font-weight:bold;
+  box-shadow:0 10px 20px rgba(37,99,235,0.4);
+}
+
+.login-card h1{
+  margin-bottom:10px;
+  color:#111827;
+}
+
+.login-card p{
+  color:#6b7280;
+  margin-bottom:30px;
+}
+
+.input-group{
+  margin-bottom:20px;
+}
+
+.input-group input{
+  width:100%;
+  padding:15px;
+  border-radius:14px;
+  border:1px solid #d1d5db;
+  font-size:15px;
+}
+
+.input-group input:focus{
+  outline:none;
+  border-color:#2563eb;
+  box-shadow:0 0 0 4px rgba(37,99,235,0.15);
+}
+
+.btn{
+  width:100%;
+  padding:15px;
+  border:none;
+  border-radius:14px;
+  background:linear-gradient(135deg,#2563eb,#3b82f6);
+  color:white;
+  font-size:16px;
+  font-weight:bold;
+  cursor:pointer;
+  transition:0.3s;
+}
+
+.btn:hover{
+  transform:translateY(-2px);
+  box-shadow:0 10px 20px rgba(37,99,235,0.3);
+}
+
+/* APP */
+
+.app{
+  display:none;
+  padding:30px;
+}
+
+.container{
+  max-width:1400px;
+  margin:auto;
+}
+
+.header{
+  background:white;
+  border-radius:20px;
+  padding:25px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:30px;
+  box-shadow:0 10px 30px rgba(0,0,0,0.08);
+}
+
+.title h1{
+  font-size:32px;
+  color:#111827;
+}
+
+.title p{
+  color:#6b7280;
+}
+
+.badge{
+  background:#2563eb;
+  color:white;
+  padding:12px 20px;
+  border-radius:50px;
+}
+
+.dashboard{
+  display:grid;
+  grid-template-columns:1fr 2fr;
+  gap:25px;
+}
+
+.card{
+  background:white;
+  border-radius:20px;
+  padding:25px;
+  box-shadow:0 10px 30px rgba(0,0,0,0.08);
+}
+
+.card h2{
+  margin-bottom:20px;
+  color:#111827;
+}
+
+.form-group{
+  margin-bottom:18px;
+}
+
+.form-group label{
+  display:block;
+  margin-bottom:8px;
+  font-weight:600;
+}
+
+.form-group input{
+  width:100%;
+  padding:14px;
+  border-radius:12px;
+  border:1px solid #d1d5db;
+}
+
+.form-group input:focus{
+  outline:none;
+  border-color:#2563eb;
+  box-shadow:0 0 0 4px rgba(37,99,235,0.15);
+}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+}
+
+table thead{
+  background:#2563eb;
+  color:white;
+}
+
+table th,
+table td{
+  padding:15px;
+  text-align:center;
+}
+
+table tbody tr{
+  border-bottom:1px solid #e5e7eb;
+}
+
+.stats{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:15px;
+  margin-bottom:25px;
+}
+
+.stat-box{
+  background:#f9fafb;
+  padding:20px;
+  border-radius:18px;
+  text-align:center;
+}
+
+.stat-box h3{
+  color:#6b7280;
+  margin-bottom:10px;
+}
+
+.stat-box span{
+  font-size:30px;
+  font-weight:bold;
+  color:#2563eb;
+}
+
+.actions{
+  margin-top:20px;
+  display:flex;
+  gap:15px;
+}
+
+.action-btn{
+  flex:1;
+  padding:14px;
+  border:none;
+  border-radius:14px;
+  cursor:pointer;
+  color:white;
+  font-weight:bold;
+}
+
+.primary{
+  background:#2563eb;
+}
+
+.warning{
+  background:#3b82f6;
+}
+
+.danger{
+  background:#1e40af;
+}
+
+.footer{
+  text-align:center;
+  margin-top:40px;
+  color:#6b7280;
+}
+
+@media(max-width:950px){
+
+  .dashboard{
+    grid-template-columns:1fr;
+  }
+
+  .stats{
+    grid-template-columns:1fr;
+  }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- LOGIN -->
+
+<div class="login-container" id="loginScreen">
+
+  <div class="login-card">
+
+    <div class="logo">
+      P
+    </div>
+
+    <h1>BibliotecaPoli</h1>
+
+    <p>Politécnico Grancolombiano</p>
+
+    <div class="input-group">
+      <input type="text" id="usuario" placeholder="Usuario">
+    </div>
+
+    <div class="input-group">
+      <input type="password" id="password" placeholder="Contraseña">
+    </div>
+
+    <button class="btn" onclick="login()">
+      Ingresar
+    </button>
+
+    <br><br>
+
+    <button class="btn" onclick="registrarCuenta()">
+      Crear Cuenta
+    </button>
+
+  </div>
+
+</div>
+
+<!-- APP -->
+
+<div class="app" id="app">
+
+<div class="container">
+
+  <div class="header">
+
+    <div class="title">
+      <h1>BibliotecaPoli</h1>
+      <p>Sistema Inteligente de Gestión de Inventarios</p>
+    </div>
+
+    <div class="badge">
+      Bienvenido
+    </div>
+
+  </div>
+
+  <div class="dashboard">
+
+    <!-- REGISTRO -->
+
+    <div>
+
+      <div class="card">
+
+        <h2>Registrar Libro</h2>
+
+        <div class="form-group">
+          <label>Título</label>
+          <input type="text" id="titulo">
+        </div>
+
+        <div class="form-group">
+          <label>Autor</label>
+          <input type="text" id="autor">
+        </div>
+
+        <div class="form-group">
+          <label>ISBN</label>
+          <input type="text" id="isbn">
+        </div>
+
+        <div class="form-group">
+          <label>Stock</label>
+          <input type="number" id="stock">
+        </div>
+
+        <div class="form-group">
+          <label>Precio</label>
+          <input type="number" id="precio">
+        </div>
+
+        <button class="btn" onclick="registrarLibro()">
+          Registrar Libro
+        </button>
+
+      </div>
+
+      <br>
+
+      <!-- SACAR LIBRO -->
+
+      <div class="card">
+
+        <h2>Sacar Libro</h2>
+
+        <div class="form-group">
+          <label>ISBN del Libro</label>
+          <input type="text" id="isbnPrestamo">
+        </div>
+
+        <div class="form-group">
+          <label>Cantidad</label>
+          <input type="number" id="cantidadPrestamo">
+        </div>
+
+        <button class="btn" onclick="sacarLibro()">
+          Sacar Libro
+        </button>
+
+      </div>
+
+      <br>
+
+      <!-- REPORTES -->
+
+      <div class="card">
+
+        <h2>Reporte de Novedades</h2>
+
+        <div class="form-group">
+          <label>ISBN del Libro</label>
+          <input type="text" id="isbnReporte">
+        </div>
+
+        <div class="form-group">
+          <label>Novedad o daño</label>
+          <input type="text" id="mensajeReporte">
+        </div>
+
+        <button class="btn" onclick="crearReporte()">
+          Generar Reporte
+        </button>
+
+        <br><br>
+
+        <div id="listaReportes"></div>
+
+      </div>
+
+    </div>
+
+    <!-- INVENTARIO -->
+
+    <div class="card">
+
+      <h2>Inventario General</h2>
+
+      <div class="form-group">
+        <input 
+          type="text" 
+          id="busqueda" 
+          placeholder="🔍 Buscar libro por título, autor o ISBN"
+          onkeyup="buscarLibro()"
+        >
+      </div>
+
+      <div class="stats">
+
+        <div class="stat-box">
+          <h3>Total Libros</h3>
+          <span id="totalLibros">0</span>
+        </div>
+
+        <div class="stat-box">
+          <h3>Bajo Stock</h3>
+          <span id="bajoStock">0</span>
+        </div>
+
+        <div class="stat-box">
+          <h3>Inventario</h3>
+          <span id="inventarioTotal">0</span>
+        </div>
+
+      </div>
+
+      <table>
+
+        <thead>
+          <tr>
+            <th>Título</th>
+            <th>Autor</th>
+            <th>ISBN</th>
+            <th>Stock</th>
+            <th>Precio</th>
+          </tr>
+        </thead>
+
+        <tbody id="tablaLibros">
+
+        </tbody>
+
+      </table>
+
+      <div class="actions">
+
+        <button class="action-btn primary" onclick="mostrarMayorStock()">
+          Mayor Stock
+        </button>
+
+        <button class="action-btn warning" onclick="mostrarMenorStock()">
+          Menor Stock
+        </button>
+
+        <button class="action-btn danger" onclick="mostrarBajoStock()">
+          Bajo Stock
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="footer">
+    BibliotecaPoli © 2026
+  </div>
+
+</div>
+
+</div>
+
+<script>
+
+let libros = [];
+let usuarios = [];
+
+/* REGISTRAR CUENTA */
+
+function registrarCuenta(){
+
+  const nuevoUsuario = document.getElementById('usuario').value;
+  const nuevaPassword = document.getElementById('password').value;
+
+  if(!nuevoUsuario || !nuevaPassword){
+
+    alert("Complete todos los campos");
+    return;
+  }
+
+  const existe = usuarios.some(
+    usuario => usuario.nombre === nuevoUsuario
+  );
+
+  if(existe){
+
+    alert("Ese usuario ya existe");
+    return;
+  }
+
+  usuarios.push({
+    nombre: nuevoUsuario,
+    password: nuevaPassword
+  });
+
+  alert("Cuenta creada correctamente");
+}
+
+/* LOGIN */
+
+function login(){
+
+  const usuario = document.getElementById('usuario').value;
+  const password = document.getElementById('password').value;
+
+  const encontrado = usuarios.find(
+    u => u.nombre === usuario && u.password === password
+  );
+
+  if(encontrado){
+
+    document.getElementById('loginScreen').style.display = "none";
+    document.getElementById('app').style.display = "block";
+
+  }else{
+
+    alert("Usuario o contraseña incorrectos");
+  }
+}
+
+/* REGISTRAR LIBRO */
+
+function registrarLibro(){
+
+  const titulo = document.getElementById('titulo').value;
+  const autor = document.getElementById('autor').value;
+  const isbn = document.getElementById('isbn').value;
+  const stock = parseInt(document.getElementById('stock').value);
+  const precio = parseFloat(document.getElementById('precio').value);
+
+  if(!titulo || !autor || !isbn || isNaN(stock) || isNaN(precio)){
+
+    alert("Complete todos los campos");
+    return;
+  }
+
+  const libro = {
+    titulo,
+    autor,
+    isbn,
+    stock,
+    precio
+  };
+
+  libros.push(libro);
+
+  actualizarTabla();
+  actualizarEstadisticas();
+  limpiarCampos();
+
+  alert("Libro registrado correctamente");
+}
+
+/* ACTUALIZAR TABLA */
+
+function actualizarTabla(lista = libros){
+
+  const tabla = document.getElementById('tablaLibros');
+
+  tabla.innerHTML = "";
+
+  lista.forEach(libro => {
+
+    tabla.innerHTML += `
+      <tr>
+        <td>${libro.titulo}</td>
+        <td>${libro.autor}</td>
+        <td>${libro.isbn}</td>
+        <td>${libro.stock}</td>
+        <td>$${libro.precio}</td>
+      </tr>
+    `;
+  });
+}
+
+/* BUSCAR LIBRO */
+
+function buscarLibro(){
+
+  const texto = document
+    .getElementById('busqueda')
+    .value
+    .toLowerCase();
+
+  const resultados = libros.filter(libro =>
+
+    libro.titulo.toLowerCase().includes(texto) ||
+    libro.autor.toLowerCase().includes(texto) ||
+    libro.isbn.toLowerCase().includes(texto)
+
+  );
+
+  actualizarTabla(resultados);
+}
+
+/* ESTADISTICAS */
+
+function actualizarEstadisticas(){
+
+  document.getElementById('totalLibros').innerText = libros.length;
+
+  let bajos = libros.filter(libro => libro.stock <= 3).length;
+
+  document.getElementById('bajoStock').innerText = bajos;
+
+  let inventario = 0;
+
+  libros.forEach(libro => {
+    inventario += libro.stock;
+  });
+
+  document.getElementById('inventarioTotal').innerText = inventario;
+}
+
+/* REPORTES */
+
+function mostrarMayorStock(){
+
+  if(libros.length === 0){
+
+    alert("No hay libros registrados");
+    return;
+  }
+
+  let mayor = libros[0];
+
+  libros.forEach(libro => {
+
+    if(libro.stock > mayor.stock){
+      mayor = libro;
+    }
+  });
+
+  alert("Libro con mayor stock:\n\n" + mayor.titulo);
+}
+
+function mostrarMenorStock(){
+
+  if(libros.length === 0){
+
+    alert("No hay libros registrados");
+    return;
+  }
+
+  let menor = libros[0];
+
+  libros.forEach(libro => {
+
+    if(libro.stock < menor.stock){
+      menor = libro;
+    }
+  });
+
+  alert("Libro con menor stock:\n\n" + menor.titulo);
+}
+
+function mostrarBajoStock(){
+
+  const bajos = libros.filter(libro => libro.stock <= 3);
+
+  if(bajos.length === 0){
+
+    alert("No hay libros con bajo stock");
+    return;
+  }
+
+  let mensaje = "LIBROS CON BAJO STOCK\n\n";
+
+  bajos.forEach(libro => {
+
+    mensaje += libro.titulo + " - Stock: " + libro.stock + "\n";
+  });
+
+  alert(mensaje);
+}
+
+/* SACAR LIBRO */
+
+function sacarLibro(){
+
+  const isbn = document.getElementById('isbnPrestamo').value;
+
+  const cantidad = parseInt(
+    document.getElementById('cantidadPrestamo').value
+  );
+
+  const libro = libros.find(
+    l => l.isbn === isbn
+  );
+
+  if(!libro){
+
+    alert("Libro no encontrado");
+    return;
+  }
+
+  if(cantidad > libro.stock){
+
+    alert("No hay suficiente stock");
+    return;
+  }
+
+  libro.stock -= cantidad;
+
+  actualizarTabla();
+  actualizarEstadisticas();
+
+  alert("Libro prestado correctamente");
+
+  document.getElementById('isbnPrestamo').value = "";
+  document.getElementById('cantidadPrestamo').value = "";
+}
+
+/* CREAR REPORTE */
+
+function crearReporte(){
+
+  const isbn = document.getElementById('isbnReporte').value;
+  const mensaje = document.getElementById('mensajeReporte').value;
+
+  if(!isbn || !mensaje){
+
+    alert("Complete todos los campos");
+    return;
+  }
+
+  const contenedor = document.getElementById('listaReportes');
+
+  contenedor.innerHTML += `
+
+    <div style="
+      background:#f9fafb;
+      padding:15px;
+      border-radius:14px;
+      margin-top:10px;
+      border-left:5px solid #2563eb;
+    ">
+
+      <strong>ISBN:</strong> ${isbn}
+      <br><br>
+
+      <strong>Reporte:</strong>
+      <br>
+      ${mensaje}
+
+    </div>
+
+  `;
+
+  alert("Reporte generado correctamente");
+
+  document.getElementById('isbnReporte').value = "";
+  document.getElementById('mensajeReporte').value = "";
+}
+
+/* LIMPIAR */
+
+function limpiarCampos(){
+
+  document.getElementById('titulo').value = "";
+  document.getElementById('autor').value = "";
+  document.getElementById('isbn').value = "";
+  document.getElementById('stock').value = "";
+  document.getElementById('precio').value = "";
+}
+
+</script>
+
+</body>
+</html>
